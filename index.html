@@ -3,71 +3,536 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sourav Joshi Vlogs</title>
+
+  <title>NotGamerFleet | Gaming Universe</title>
+
+  <meta name="description"
+        content="Explore gaming videos, featured gameplay and gaming content on NotGamerFleet.">
 
   <style>
-    body {
+    :root {
+      --bg: #070909;
+      --panel: #101514;
+      --green: #b6ff00;
+      --white: #f5f7f5;
+      --muted: #a0aaa4;
+    }
+
+    * {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0b12;
-      color: white;
-      text-align: center;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, 90%);
+      margin: auto;
     }
 
     header {
-      padding: 45px 15px;
-      background: #171725;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(7, 9, 9, .94);
+      border-bottom: 1px solid #242b25;
+      backdrop-filter: blur(12px);
     }
 
-    h1 {
-      color: #ff3030;
-      font-size: 36px;
+    nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
     }
 
-    section {
-      padding: 30px 15px;
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      font-size: 14px;
+      color: #d3d9d4;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
     }
 
     .button {
       display: inline-block;
-      padding: 14px 24px;
-      background: #ff3030;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
+      padding: 13px 20px;
+      background: var(--green);
+      color: #080b05;
+      font-weight: 800;
+      border-radius: 5px;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px #b6ff0040;
+    }
+
+    .outline {
+      border: 1px solid #526047;
+      background: transparent;
+      color: var(--white);
+    }
+
+    .hero {
+      min-height: 590px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 80% 45%, #b6ff0018, transparent 45%),
+        linear-gradient(135deg, #0c110c, #070909 65%);
+    }
+
+    .hero::after {
+      content: "NF";
+      position: absolute;
+      right: 3%;
+      top: 10%;
+      font-size: clamp(180px, 35vw, 440px);
+      font-weight: 900;
+      color: #b6ff0008;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      padding: 90px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      color: var(--green);
+      border: 1px solid #536c2b;
+      background: #b6ff000c;
+      padding: 7px 12px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-size: clamp(45px, 9vw, 88px);
+      line-height: .98;
+      letter-spacing: -4px;
+      font-weight: 900;
+      margin-bottom: 25px;
+    }
+
+    h1 span {
+      color: var(--green);
+    }
+
+    .hero p {
+      max-width: 540px;
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 30px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    section {
+      padding: 85px 0;
+    }
+
+    .section-label {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(30px, 5vw, 45px);
+      letter-spacing: -1px;
+      margin-bottom: 14px;
+    }
+
+    .section-description {
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 35px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .video-card {
+      overflow: hidden;
+      border: 1px solid #252d27;
+      background: var(--panel);
+      border-radius: 9px;
+      transition: transform .25s, border-color .25s;
+    }
+
+    .video-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--green);
+    }
+
+    .video-thumb {
+      aspect-ratio: 16 / 9;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at center, #344122, #151b13 55%, #0c100c);
+      color: var(--green);
+      font-size: 40px;
+    }
+
+    .video-info {
+      padding: 20px;
+    }
+
+    .video-info h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .video-info p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .watch {
+      color: var(--green);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .about-box {
+      padding: 40px;
+      border: 1px solid #283326;
+      border-radius: 12px;
+      background:
+        radial-gradient(ellipse at top right, #b6ff0010, transparent 55%),
+        var(--panel);
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .about-box p {
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    .stats {
+      display: grid;
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 18px;
+      border: 1px solid #29312b;
+      border-radius: 6px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--green);
+      font-size: 21px;
+    }
+
+    .stat span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .cta {
+      text-align: center;
+      background: linear-gradient(180deg, #0b100a, #070909);
+      border-top: 1px solid #1d2819;
+      border-bottom: 1px solid #1d2819;
+    }
+
+    .cta p {
+      color: var(--muted);
+      margin: 12px auto 25px;
+      max-width: 550px;
     }
 
     footer {
-      padding: 20px;
-      color: #aaa;
+      padding: 30px 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    footer p + p {
+      margin-top: 8px;
+    }
+
+    @media (max-width: 760px) {
+      .nav-links {
+        gap: 12px;
+        font-size: 12px;
+      }
+
+      .nav-links .button {
+        padding: 9px 11px;
+      }
+
+      .logo {
+        font-size: 17px;
+      }
+
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .about-box {
+        grid-template-columns: 1fr;
+        padding: 25px;
+      }
+
+      .hero {
+        min-height: 520px;
+      }
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+      section {
+        padding: 65px 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        transition: none !important;
+      }
     }
   </style>
 </head>
 
 <body>
+
   <header>
-    <h1>SOURAV JOSHI VLOGS</h1>
-    <p>Discover. Watch. Enjoy.</p>
+    <div class="container">
+      <nav>
+        <a class="logo" href="#home">NOT<span>GAMER</span>FLEET</a>
+
+        <div class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#videos">Videos</a>
+          <a href="#about">About</a>
+          <a class="button" href="#community">Explore</a>
+        </div>
+      </nav>
+    </div>
   </header>
 
-  <section>
-    <h2>Welcome to SOURAV JOSHI VLOGS</h2>
-    <p>Your destination for amazing YouTube videos.</p>
+  <main>
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <div class="tag">WELCOME TO THE GAMING ZONE</div>
 
-    <a class="button"
-       href="https://www.youtube.com/"
-       target="_blank">
-       WATCH ON YOUTUBE
-    </a>
-  </section>
+          <h1>
+            GAME ON.<br>
+            <span>LEVEL UP.</span>
+          </h1>
 
-  <section>
-    <h2>Latest Videos</h2>
-    <p>Explore the creator's latest uploads.</p>
-  </section>
+          <p>
+            Enter the gaming universe. Explore gameplay, discover
+            featured videos and enjoy the world of gaming.
+          </p>
+
+          <div class="actions">
+            <a class="button"
+               href="https://www.youtube.com/results?search_query=GamerFleet"
+               target="_blank" rel="noopener noreferrer">
+              ▶ WATCH ON YOUTUBE
+            </a>
+
+            <a class="button outline" href="#videos">
+              EXPLORE VIDEOS ↓
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="videos">
+      <div class="container">
+        <div class="section-label">THE CONTENT ZONE</div>
+
+        <h2 class="section-title">Featured Gaming Videos</h2>
+
+        <p class="section-description">
+          Discover gaming adventures and gameplay highlights.
+          Replace these sample cards with verified video links.
+        </p>
+
+        <div class="video-grid">
+
+          <article class="video-card">
+            <div class="video-thumb">▶</div>
+            <div class="video-info">
+              <h3>Gaming Adventures</h3>
+              <p>Explore exciting gameplay and new challenges.</p>
+              <a class="watch"
+                 href="https://www.youtube.com/results?search_query=GamerFleet+gameplay"
+                 target="_blank" rel="noopener noreferrer">
+                WATCH VIDEOS ↗
+              </a>
+            </div>
+          </article>
+
+          <article class="video-card">
+            <div class="video-thumb">⚡</div>
+            <div class="video-info">
+              <h3>Epic Gaming Moments</h3>
+              <p>Discover memorable moments from gaming.</p>
+              <a class="watch"
+                 href="https://www.youtube.com/results?search_query=GamerFleet+gaming"
+                 target="_blank" rel="noopener noreferrer">
+                WATCH VIDEOS ↗
+              </a>
+            </div>
+          </article>
+
+          <article class="video-card">
+            <div class="video-thumb">🎮</div>
+            <div class="video-info">
+              <h3>More Gaming Content</h3>
+              <p>Find more videos and gaming adventures.</p>
+              <a class="watch"
+                 href="https://www.youtube.com/results?search_query=GamerFleet+latest+videos"
+                 target="_blank" rel="noopener noreferrer">
+                DISCOVER MORE ↗
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="about-box">
+          <div>
+            <div class="section-label">ABOUT THE WEBSITE</div>
+
+            <h2 class="section-title">Built for Gaming Fans.</h2>
+
+            <p>
+              NotGamerFleet is a fan-made gaming website concept
+              created to explore gaming content in a modern,
+              dark and neon-inspired design.
+            </p>
+
+            <p>
+              This independent website is not affiliated with,
+              endorsed by, or an official website of GamerFleet.
+            </p>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>GAMING</strong>
+              <span>Explore gameplay content</span>
+            </div>
+
+            <div class="stat">
+              <strong>COMMUNITY</strong>
+              <span>Made for gaming fans</span>
+            </div>
+
+            <div class="stat">
+              <strong>LEVEL UP</strong>
+              <span>Discover something new</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="community">
+      <div class="container">
+        <div class="section-label">JOIN THE ADVENTURE</div>
+
+        <h2 class="section-title">Ready to Enter the Game?</h2>
+
+        <p>
+          Visit YouTube to explore GamerFleet-related gaming videos
+          and discover more content.
+        </p>
+
+        <a class="button"
+           href="https://www.youtube.com/results?search_query=GamerFleet"
+           target="_blank" rel="noopener noreferrer">
+          EXPLORE ON YOUTUBE ↗
+        </a>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    © 2026 Creator Hub
+    <div class="container">
+      <p>© 2026 NotGamerFleet Fan Website Concept</p>
+      <p>
+        Independent fan project. Not affiliated with or endorsed by
+        GamerFleet. All third-party names and content belong to their
+        respective owners.
+      </p>
+    </div>
   </footer>
+
 </body>
 </html>
